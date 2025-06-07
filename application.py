@@ -15,14 +15,26 @@ class Application:
         # create instance of Board
         self.board = Board(self)
         # create instance of Player
-        self.player1 = Player(self)
-        self.player2 = Player(self)
+        self.player1 = []
+        self.player2 = []
+        self.new_game()
+
+    def new_game(self):
+        self.player1 = []
+        self.player2 = []
+        for i in range(8):
+            for j in range(3):
+                self.player1.append(Player(self,1, i, j))
+                self.player2.append(Player(self, 2, i, j))
 
     def run(self):
         while self.running:
             events = pg.event.get()
             for event in events:
-                self.player1.get_event(event)
+                for pawn in self.player1:
+                    pawn.get_event(event)
+                for pawn in self.player2:
+                    pawn.get_event(event)
                 if event.type == pg.QUIT:
                     self.running = False
 
@@ -35,5 +47,9 @@ class Application:
         pg.quit()
     def draw(self):
         self.board.draw()
-        self.player1.draw()
+        for pawn in self.player1:
+            pawn.draw()
+        for pawn in self.player2:
+            pawn.draw()
+        # self.player1.draw()
 
